@@ -1,8 +1,8 @@
 use yew::prelude::*;
 
-pub struct Home;
+pub struct Products;
 
-impl Component for Home {
+impl Component for Products {
   type Message = ();
   type Properties = ();
 
@@ -21,7 +21,7 @@ impl Component for Home {
   fn view(&self) -> Html {
     html! {
         <div>
-           { "Home page"}
+           { "Products page"}
         </div>
     }
   }
