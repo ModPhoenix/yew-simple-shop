@@ -14,6 +14,9 @@ pub enum AppRoute {
   PageNotFound(Permissive<String>),
 }
 
+pub type AppRouter = Router<AppRoute>;
+pub type AppAnchor = RouterAnchor<AppRoute>;
+
 pub enum Msg {}
 
 pub struct App {

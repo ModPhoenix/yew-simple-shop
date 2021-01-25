@@ -1,5 +1,7 @@
 use yew::prelude::*;
 
+use crate::app::{AppAnchor, AppRoute};
+
 pub struct Layout {
   props: Props,
 }
@@ -27,10 +29,39 @@ impl Component for Layout {
 
   fn view(&self) -> Html {
     html! {
-        <div>
-            { "Layout"}
-            { self.props.children.clone() }
+      <>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="container">
+            <AppAnchor classes="navbar-brand" route=AppRoute::Products>
+                { "Simple Shope" }
+            </AppAnchor>
+            <div class="collapse navbar-collapse">
+              <div class="navbar-nav">
+                // <a class="nav-link active" aria-current="page" href="#">{"Home"}</a>
+                <AppAnchor classes="nav-link" route=AppRoute::Products>
+                { "Home" }
+                </AppAnchor>
+
+              </div>
+            </div>
+            <div class="navbar-nav">
+              <AppAnchor classes="nav-link" route=AppRoute::Cart>
+                { "Cart" }
+              </AppAnchor>
+            </div>
+          </div>
+        </nav>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-3">
+              {"sidebar"}
+            </div>
+            <div class="col-sm-9">
+              { self.props.children.clone() }
+            </div>
+          </div>
         </div>
+      </>
     }
   }
 }
