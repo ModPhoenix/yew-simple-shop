@@ -1,36 +1,34 @@
-use yew::{html, services, Component, ComponentLink, Html, ShouldRender};
+use yew::prelude::*;
+use yew_router::{components::RouterAnchor, prelude::*, route::Route, switch::Permissive};
 
-pub enum Msg {
-  Increment,
-  Decrement,
+use crate::components::layout::Layout;
+use crate::pages::{cart::Cart, home::Home, page_not_found::PageNotFound};
+
+#[derive(Clone, Debug, Switch)]
+pub enum AppRoute {
+  #[to = "/!"]
+  Home,
+  #[to = "/cart!"]
+  Cart,
+  #[to = "/page-not-found"]
+  PageNotFound(Permissive<String>),
 }
+
+pub enum Msg {}
 
 pub struct App {
   link: ComponentLink<Self>,
-  value: i64,
 }
-
 impl Component for App {
   type Message = Msg;
   type Properties = ();
 
   fn create(_props: Self::Properties, link: ComponentLink<Self>) -> Self {
-    Self { link, value: 0 }
+    Self { link }
   }
 
-  fn update(&mut self, msg: Self::Message) -> ShouldRender {
-    match msg {
-      Msg::Increment => {
-        self.value += 1;
-        services::console::ConsoleService::log("plus one");
-        true
-      }
-      Msg::Decrement => {
-        self.value -= 1;
-        services::console::ConsoleService::log("minus one");
-        true
-      }
-    }
+  fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+    false
   }
 
   fn change(&mut self, _props: Self::Properties) -> ShouldRender {
@@ -39,26 +37,32 @@ impl Component for App {
 
   fn view(&self) -> Html {
     html! {
-        <div>
-            <nav class="menu">
-                <button onclick=self.link.callback(|_| Msg::Increment)>
-                    { "Increment" }
-                </button>
-                <button onclick=self.link.callback(|_| Msg::Decrement)>
-                    { "Decrement" }
-                </button>
-                <button onclick=self.link.batch_callback(|_| vec![Msg::Increment, Msg::Increment])>
-                    { "Increment Twice" }
-                </button>
-            </nav>
-            <p>
-                <b>{ "Current value: " }</b>
-                { self.value }
-            </p>
-            <p>
-                <b>{ "Rendered at: " }</b>
-            </p>
-        </div>
+      <>
+        <Layout>
+          <Router<AppRoute, ()>
+            render = Router::render(Self::switch)
+            redirect = Router::redirect(|route: Route<()>| {
+                AppRoute::PageNotFound(Permissive(Some(route.route)))
+            })
+          />
+        </Layout>
+      </>
+    }
+  }
+}
+
+impl App {
+  fn switch(switch: AppRoute) -> Html {
+    match switch {
+      AppRoute::Home => {
+        html! { <Home /> }
+      }
+      AppRoute::Cart => {
+        html! { <Cart /> }
+      }
+      AppRoute::PageNotFound(Permissive(route)) => {
+        html! { <PageNotFound route=route /> }
+      }
     }
   }
 }
