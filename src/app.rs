@@ -2,14 +2,14 @@ use yew::prelude::*;
 use yew_router::{components::RouterAnchor, prelude::*, route::Route, switch::Permissive};
 
 use crate::components::layout::Layout;
-use crate::pages::{cart::Cart, page_not_found::PageNotFound, products::Products};
+use crate::pages::{cart::Cart, page_not_found::PageNotFound, products::ProductsPage};
 
 #[derive(Clone, Debug, Switch)]
 pub enum AppRoute {
-  #[to = "/!"]
-  Products,
   #[to = "/cart!"]
   Cart,
+  #[to = "/!"]
+  Products,
   #[to = "/page-not-found"]
   PageNotFound(Permissive<String>),
 }
@@ -57,11 +57,11 @@ impl Component for App {
 impl App {
   fn switch(switch: AppRoute) -> Html {
     match switch {
-      AppRoute::Products => {
-        html! { <Products /> }
-      }
       AppRoute::Cart => {
         html! { <Cart /> }
+      }
+      AppRoute::Products => {
+        html! { <ProductsPage /> }
       }
       AppRoute::PageNotFound(Permissive(route)) => {
         html! { <PageNotFound route=route /> }
