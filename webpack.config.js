@@ -16,6 +16,7 @@ module.exports = (env, argv) => {
       path: distPath,
       filename: "bundle.js",
       webassemblyModuleFilename: "bundle.wasm",
+      publicPath: "/",
     },
     module: {
       rules: [

@@ -32,7 +32,11 @@ impl Component for ProductItem {
     html! {
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">{self.props.product.name.to_string()}</h5>
+          <h5 class="card-title">
+          <AppAnchor route=AppRoute::Product(self.props.product.id.to_string())>
+            {self.props.product.name.to_string()}
+          </AppAnchor>
+          </h5>
           <div class="card-subtitle mb-2 text-muted">{format!("{}$", self.props.product.price)}</div>
           <p class="card-text">{format!("Origin: {}", self.props.product.origin.to_uppercase())}</p>
           <button type="button" class="btn btn-outline-primary">{ "Buy" }</button>

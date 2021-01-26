@@ -78,38 +78,45 @@ impl Component for ProductsPage {
 
   fn view(&self) -> Html {
     html! {
-      match self.fetch {
-        Some(_) => {
-          html! {
-            <div class="d-flex justify-content-center">
-              <div class="spinner-grow" role="status">
-                <span class="visually-hidden">{"Loading..."}</span>
-              </div>
-            </div>
-          }
-        }
-        None => match self.products {
-          Some(ref products) => {
-            html! {
-              <div class="row row-cols-1 row-cols-md-2 g-2">
-                { for products.items.iter().map(|product| html! {
-                  <div class="col">
-                    <ProductItem product={product} />
+      <div class="row">
+        <div class="col-sm-3">
+          {"sidebar"}
+        </div>
+        <div class="col-sm-9">
+          {match self.fetch {
+            Some(_) => {
+              html! {
+                <div class="d-flex justify-content-center">
+                  <div class="spinner-grow" role="status">
+                    <span class="visually-hidden">{"Loading..."}</span>
                   </div>
-                }) }
-              </div>
-
+                </div>
+              }
             }
-          }
-          None => {
-            if let Some(ref error) = self.error {
-              html! { <p>{ error.clone() }</p> }
-            } else {
-              html! {}
-            }
-          }
-        },
-      }
+            None => match self.products {
+              Some(ref products) => {
+                html! {
+                  <div class="row row-cols-1 row-cols-md-2 g-2">
+                    { for products.items.iter().map(|product| html! {
+                      <div class="col">
+                        <ProductItem product={product} />
+                      </div>
+                    }) }
+                  </div>
+    
+                }
+              }
+              None => {
+                if let Some(ref error) = self.error {
+                  html! { <p>{ error.clone() }</p> }
+                } else {
+                  html! {}
+                }
+              }
+            },
+          }}
+        </div>
+      </div>
     }
   }
 }

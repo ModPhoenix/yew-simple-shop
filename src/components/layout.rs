@@ -52,14 +52,7 @@ impl Component for Layout {
           </div>
         </nav>
         <div class="container pt-4">
-          <div class="row">
-            <div class="col-sm-3">
-              {"sidebar"}
-            </div>
-            <div class="col-sm-9">
-              { self.props.children.clone() }
-            </div>
-          </div>
+          { self.props.children.clone() }
         </div>
       </>
     }
